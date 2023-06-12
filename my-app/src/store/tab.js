@@ -14,7 +14,6 @@ export default {
             ],
             menu:[] 
         },
-
     mutations:{
         // 修改菜单展开收起
         chengrCollaps(state){
