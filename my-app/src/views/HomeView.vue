@@ -1,45 +1,290 @@
 <template>
-  <div>
-    <el-carousel :interval="4000" type="card" height="200px">
-    <el-carousel-item v-for="item in 3" :key="item">
-      <img src="../images/slideshow1.jpeg" v-if="item==1" @click="zodiac">
-      <img src="../images/slideshow2.jpeg" v-if="item==2" @click="">
-      <img src="../images/slideshow3.jpeg" v-if="item==3">
-    </el-carousel-item>
-  </el-carousel>
+  <div class="home">
+    <el-row>
+      <el-col :span="8"
+        ><div class="grid-content bg-purple">
+          <div class="top">
+            <div class="t-context">
+              <img src="../images/1.jpg" alt="" />
+              <div class="userinfo">
+                <p class="name">Admin</p>
+                <p class="access">超级管理员</p>
+              </div>
+            </div>
+            <div class="b-context">
+              <p>上次登录时间<span>2022-11-31</span></p>
+              <p>上次登录地点<span>郑州</span></p>
+            </div>
+          </div>
+          <div class="bottom">
+            <el-table :data="tableData" stripe>
+              <el-table-column
+                v-for="(val, key) in tableList"
+                :key="val"
+                :prop="key"
+                :label="val"
+              />
+              <!-- <el-table-column prop="date" label="今日卖出" />
+              <el-table-column prop="address" label="本月卖出" />
+              <el-table-column prop="total" label="总卖出" /> -->
+            </el-table>
+          </div>
+        </div>
+      </el-col>
 
-  中国传统文化发展历程
-  <el-steps :active="5" align-center>
-  <el-step title="一、前文明期：猿人到大禹传子" description="这是中国文化的史前期，它包括旧石器时代和新石器时代，相当于中国古史的传说时代。"></el-step>
-  <el-step title="二、雏形期：夏、商、西周至春秋、战国" description="尽管这一时期华夏组的宏大空间（“中国”）还很有限，尚没有对南北四方产生足够的作用力，但中国文明的基石已初步奠定，象形会意的汉字、儒墨道法等诸子思想、伦理宗法等等都对后世影响甚巨。"></el-step>
-  <el-step title="三、定型期：秦汉" description="如果向前追溯，一统帝国文化的端绪应该溯源至春秋战国之际，因为其时所发生的第一次社会大变革和文化大转型，已经寓合着政治的大一统和文化的大一统。"></el-step>
-  <el-step title="四、融合期：魏晋南北朝至唐中叶" description="这一时期，与庄园经济和门阀贵族政治相表里，精神领域里神学弥漫，儒、道、玄、佛各擅胜场，影响着思想意识各文化门类。"></el-step>
-  <el-step title="五、强化期：唐中叶至明中叶" description="唐代前后期的转折，规范了中国文化史后半段的大致框架。唐宋以降的一年间，中国文化在自身的发展中，总体上已显示出走出中古文化故辙的种种动向，韵语了部分近世文化因子，可以称之为近古文化期。"></el-step>
-  <el-step title="六、转型期：明末迄今" description="这一阶段，已先期完成现代转型的工业西方以炮舰加商品打开了中国封闭的国门。中国文化第一次遭遇到“高势位”文化的入侵，中国文化与西方文化的冲突、调适、融合过程异常艰难也异常痛苦，中国文化在制度、物质、行为、精神诸层面进入现代转型期。"></el-step>
-</el-steps>
+      <el-col :span="16">
+        <div class="num">
+          <el-card
+            body-style="{display: 'flex'}"
+            v-for="i in countData"
+            :key="i.name"
+          >
+            <el-icon><component :is="i.icon"></component></el-icon>
+            <div>
+              <p class="value">{{ i.value }}</p>
+              <p class="mz">{{ i.name }}</p>
+            </div>
+          </el-card>
+        </div>
+        <el-card style="height: 280px">
+          <div class="line"></div>
+        </el-card>
+        <div class="graph">
+          <el-card style="height: 260px"></el-card>
+          <el-card style="height: 260px"></el-card>
+        </div>
+      </el-col>
+    </el-row>
   </div>
-  <el-header><Aside/></el-header>
 </template>
 
 <script>
-import Aside from '@/components/Aside.vue';
-
-  export default {
-    data() {
-        return {};
-    },
-    methods: {
-        zodiac() {
-            this.$router.push("/");
+import * as echarts from "echarts";
+import { Check } from "@element-plus/icons-vue";
+import { markRaw } from "@vue/reactivity";
+import { getdata } from "../api/module/first";
+export default {
+  name: "HomeView",
+  components: { Check },
+  data() {
+    return {
+      tableData: [
+        {
+          date: "111",
+          name: "oppo",
+          address: "500",
+          total: "10000",
+        },
+        {
+          date: "1111",
+          name: "vivo",
+          address: "444",
+          total: "10000",
+        },
+        {
+          date: "288",
+          name: "xiaomi",
+          address: "4563",
+          total: "10000",
+        },
+        {
+          date: "234",
+          name: "meizu",
+          address: "233",
+          total: "10000",
+        },
+      ],
+      tableList: {
+        name: "名字",
+        date: "今日卖出",
+        address: "本月卖出",
+        total: "总卖出",
+      },
+      countData: [
+        {
+          name: "今日支付订单",
+          value: 1234,
+          icon: markRaw(Check),
+          color: "#2ec7c9",
+        },
+        {
+          name: "今日支付订单",
+          value: 1234,
+          icon: markRaw(Check),
+          color: "#2ec7c9",
+        },
+        {
+          name: "今日支付订单",
+          value: 1234,
+          icon: markRaw(Check),
+          color: "#2ec7c9",
+        },
+        {
+          name: "今日支付订单",
+          value: 1234,
+          icon: markRaw(Check),
+          color: "#2ec7c9",
+        },
+        {
+          name: "今日支付订单",
+          value: 1234,
+          icon: markRaw(Check),
+          color: "#2ec7c9",
+        },
+        {
+          name: "今日支付订单",
+          value: 1234,
+          icon: markRaw(Check),
+          color: "#2ec7c9",
+        },
+      ],
+      a: 0,
+      b: 0,
+      c: 0,
+      d: 0,
+      list: [],
+    };
+  },
+  methods: {
+    renwuthree() {
+      getdata().then(({ data }) => {
+        for (let i = 0; i < data.data.length; i++) {
+          const e = data.data[i];
+          if (e.year == 2019) {
+            this.a++;
+          } else if (e.year == 2020) {
+            this.b++;
+          } else if (e.year == 2021) {
+            this.c++;
+          } else if (e.year == 2022) {
+            this.d++;
+          }
         }
+        this.list = [this.a, this.b, this.c, this.d];
+        // console.log(this.list);
+      });
     },
-    components: { Aside }
-}
+    echart() {
+      var myEcharts = echarts.init(document.querySelector(".line"));
+      var option = {
+        xAxis: { data: ["2019", "2020", "2021", "2022"] },
+        yAxis: {
+          type: "value",
+        },
+        series: [
+          {
+            type: "line",
+            data: this.list,
+          },
+        ],
+      };
+      myEcharts.setOption(option);
+    },
+  },
+  // mounted() {
+  //   this.renwuthree();
+  //   // console.log(this.list);
+  //   setTimeout(() => {
+  //     console.log(this.list);
+  //     this.echart();
+  //   }, 5000);
+  // },
+};
 </script>
 
-<style scoped>
-img{
+
+<style lang="less">
+.home {
+  padding: 0px;
+}
+.line {
   width: 100%;
-  height: inherit;
+  height: 250px;
+}
+.bg-purple {
+  border: 1px solid #efefef;
+  .top {
+    .t-context {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding-bottom: 20px;
+      padding-top: 20px;
+      border-bottom: 1px solid #efefef;
+      img {
+        margin-right: 2.5rem;
+        width: 9.375rem;
+        height: 9.375rem;
+        border-radius: 50%;
+      }
+      .userinfo {
+        margin-top: 10px;
+        .name {
+          font-size: 32px;
+          margin-bottom: 10px;
+        }
+        .access {
+          color: #836f6f;
+        }
+      }
+    }
+    .b-context {
+      padding-top: 10px;
+      color: #999;
+      font-size: 16px;
+      line-height: 28px;
+      p {
+        span {
+          color: #666;
+          margin-left: 60px;
+        }
+      }
+    }
+  }
+  .el-table--fit {
+    margin-top: 40px;
+  }
+}
+.num {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  .value {
+    font-size: 30px;
+    margin-bottom: 10px;
+    line-height: 30px;
+    height: 30px;
+  }
+  .mz {
+    font-size: 10px;
+    color: #999;
+    text-align: center;
+  }
+  // display: flex;
+
+  .el-card__body {
+    display: flex;
+  }
+  .el-card {
+    width: 32%;
+    margin-bottom: 20px;
+  }
+
+  i {
+    width: 80px;
+    height: 80px;
+    font-size: 30px;
+    text-align: center;
+    color: white;
+    background-color: blue;
+    margin-right: 20px;
+  }
+}
+.graph {
+  display: flex;
+  justify-content: space-between;
+  .el-card {
+    width: 48%;
+  }
 }
 </style>

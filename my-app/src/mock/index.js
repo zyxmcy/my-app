@@ -1,4 +1,4 @@
 import Mock from 'mockjs'
-import mock from './mock'
+import permission from './permission'
 
-Mock.mock(/api\/mock\/getMenu/,'post',mock.getMenu)
+Mock.mock(/api\/permission\/getMenu/,'post',permission.getMenu)

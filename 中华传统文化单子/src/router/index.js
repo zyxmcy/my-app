@@ -1,9 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import main from '../views/main.vue'
-import mall from '../views/Mall.vue'
-import PageTwo from '../views/PageTwo.vue'
-import PageOne from '../views/PageOne.vue'
+import Zodiac from '../views/Zodiac.vue'
 import Login from '../views/Login'
 import Cookie from 'js-cookie'
 const routes = [
@@ -18,26 +16,13 @@ const routes = [
         component: HomeView
       },
       {
-        path: '/mall',
-        name: 'mall',
-        component: mall
-      },
-      {
-        path: '/PageTwo',
-        name: 'pageTwo',
-        component: PageTwo
-      },
-      {
-        path: '/PageOne',
-        name: 'pageOne',
-        component: PageOne
+        path: '/zodiac',
+        name: 'zodiac',
+        component: Zodiac
       },
       {
         path: '/User',
         name: 'user',
-        // route level code-splitting
-        // this generates a separate chunk (about.[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
         component: () => import(/* webpackChunkName: "about" */ '../views/User.vue')
       }
     ]
@@ -57,15 +42,11 @@ const router = createRouter({
 
 router.beforeEach((to,from,next)=>{
   const token = Cookie.get('token')
-  // console.log(token);
   if(!token && to.name!=='login'){
-    // console.log('!token');
       next ({name:'login'})
   }else if(token&&to.name==='login'){
-    // console.log('token');
       next({name:from.home})
   }else{
-    // console.log('next');
       next()
   }
 })

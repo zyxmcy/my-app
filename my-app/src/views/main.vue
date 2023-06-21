@@ -1,32 +1,24 @@
 <template>
-  <!-- <div class="layout">
-    <el-container>
-      <el-aside width="auto"></el-aside>
-      <el-container>
-        <el-header><Header /></el-header>
-        <el-main><router-view></router-view></el-main>
-        <el-footer> <Aside /> </el-footer>
-      </el-container>
-    </el-container> -->
-  <!-- </div> -->
   <div class="common-layout">
     <el-container>
-      <el-header><Header/></el-header>
-      <!-- <el-header><Aside/></el-header> -->
-      <el-main><router-view></router-view></el-main>
+      <el-aside width="auto"><common-aside /></el-aside>
+      <el-container>
+        <el-header><common-header /></el-header>
+        <common-tag />
+        <el-main><router-view></router-view></el-main>
+      </el-container>
     </el-container>
   </div>
 </template>
 
 
 <script>
-import Flooter from "@/components/Flooter.vue";
-import Aside from "../components/Aside.vue";
-import Header from "../components/Header.vue";
-
+import CommonAside from "../components/CommonAside.vue";
+import CommonHeader from "../components/CommonHeader.vue";
+import CommonTag from "../components/CommonTag.vue";
 
 export default {
-  components: { Aside, Header,  Flooter },
+  components: { CommonAside, CommonHeader, CommonTag },
 };
 </script>
 
